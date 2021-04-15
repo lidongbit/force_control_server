@@ -6,10 +6,10 @@ target=do_server
 all:$(target)
 
 $(target):$(obj)
-	aarch64-linux-gnu-gcc $(ldflags) $(^) -o $(@)   
+	gcc $(ldflags) $(^) -o $(@)   
 
 %.o:%.c
-	aarch64-linux-gnu-gcc -c $(cflags) $(^) -o $(@)
+	gcc -c $(cflags) $(^) -o $(@)
 	
 .PHONY:clean all
 clean:
