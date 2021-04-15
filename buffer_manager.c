@@ -12,9 +12,12 @@ int32_t push_circle_buff_item(buffer_info_t *circle_buff_info, void *circle_buff
     {
         return -1;
     }
-
+    printf("before push, head and tail: %d %d\n", circle_buff_info->head_index_offset,
+                                                    circle_buff_info->tail_index_offset);
     memcpy(circle_buff+circle_buff_info->tail_index_offset,push_ptr,circle_buff_info->element_length);
-    circle_buff_info->tail_index_offset = (circle_buff_info->tail_index_offset + 1)%circle_buff_info->buff_length;
+    circle_buff_info->tail_index_offset = (circle_buff_info->tail_index_offset + circle_buff_info->element_length)%circle_buff_info->buff_length;
+    printf("after push, head and tail: %d %d\n", circle_buff_info->head_index_offset,
+                                                    circle_buff_info->tail_index_offset);
     return circle_buff_info->element_length;
 }
 

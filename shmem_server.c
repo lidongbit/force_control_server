@@ -10,8 +10,8 @@
 #include <sys/shm.h>
 #include "force_interface.h"
 
-#define  SERVER_BUFF_SIZE 1024
-#define  MAX_SIZE 4*1024
+#define  SERVER_BUFF_SIZE 2048
+#define  MAX_SIZE 4096
 
 typedef buffer_info_t FORCE_DEBUG_RINGS_BUFF_STRUCT;
 static void *shm_ctrl = NULL;
@@ -105,7 +105,7 @@ void shemem_server_memu(void)
 
 static void shmem_server_do_memu(int choose)
 {
-    char buff[1024] = {0};
+    char buff[SERVER_BUFF_SIZE] = {0};
     ServoCoreProcessCall_t app = {0};
     int mode,submode;
     char *ptr = buff+sizeof(ServoCoreProcessCall_t);
@@ -161,6 +161,10 @@ static void shmem_server_do_memu(int choose)
     default:
         break;
     }
+
     memcpy(buff,&app,sizeof(ServoCoreProcessCall_t));
-    push_circle_buff_item(local_buff_info,buff,1024);
+    int *app_ptr = (int*)buff;
+    printf("ServoCoreProcessCall_t:%d %d %d %d %d %d %d %d\n",*(app_ptr),*(app_ptr+1),*(app_ptr+2),*(app_ptr+3),
+                                                                *(app_ptr+4),*(app_ptr+5),*(app_ptr+6),*(app_ptr+7));
+    push_circle_buff_item(local_buff_info,local_buff,buff);
 }
